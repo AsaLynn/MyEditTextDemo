@@ -6,10 +6,13 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -17,11 +20,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String TAG = "MainActivity";
     private EditText editText;
     private TextView tv_update;
+    private FrameLayout fl_content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fl_content = findViewById(R.id.fl_content);
+        findViewById(R.id.btn_move).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                move();
+            }
+        });
 
         editText = findViewById(R.id.et_input);
         tv_update = findViewById(R.id.tv_update);
@@ -38,6 +50,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tv_update.setVisibility(hasFocus ? View.GONE:View.VISIBLE);
             }
         });
+    }
+
+    private void move() {
+        FrameLayout.LayoutParams params
+                = (FrameLayout.LayoutParams) fl_content.getLayoutParams();
+        params.rightMargin = 100;
+        params.bottomMargin = 100;
+        params.gravity = Gravity.BOTTOM | Gravity.RIGHT;
+        fl_content.setLayoutParams(params);
     }
 
     /**
